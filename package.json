@@ -1,0 +1,16 @@
+{
+  "name": "ng-echarts",
+  "version": "1.0.0",
+  "description": "echarts angular directive",
+  "main": "dist/ng-echarts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "echarts",
+    "angularjs",
+    "directive"
+  ],
+  "author": "fxghqc",
+  "license": "MIT"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "ng-echarts",
+  "version": "0.0.1",
+  "description": "echarts angular directive",
+  "main": "dist/ng-echarts.js",
+  "keywords": [
+    "echarts",
+    "angularjs",
+    "directive"
+  ],
+  "authors": [
+    "fxghqc"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
