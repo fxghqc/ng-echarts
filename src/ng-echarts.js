@@ -6,7 +6,7 @@
     function draw(chart, echart, option, theme, init) {
       init && (echart = echarts.init(chart, theme));
       echart.setOption(option);
-      echart.resize();
+      !init && echart.resize();
     };
     
     function calSize(ele, chart) {
