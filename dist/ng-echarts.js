@@ -7,6 +7,7 @@
       init && (echart = echarts.init(chart, theme));
       echart.setOption(option);
       !init && echart.resize();
+      return echart;
     };
     
     function calSize(ele, chart) {
@@ -26,13 +27,15 @@
         var size = calSize(element[0], chart);
         chart.style.width = size.width;
         chart.style.height = size.height;
-        option && draw(chart, echart, option, theme, true);
+        option && (echart = draw(chart, echart, option, theme, true));
       }, 100);
 
-      scope.$watchGroup([attrs.option, attrs.theme], function(values) {
+      scope.$watchGroup([attrs.option, attrs.theme, attrs.data], function(values) {
         option = values[0];
         theme = values[1];
-        echart && draw(chart, echart, option, theme, false);
+        data = values[2];
+        //echart && draw(chart, echart, option, theme, false);
+        data && echart.addData(data);
       });
 
     };
