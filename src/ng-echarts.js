@@ -38,9 +38,9 @@
       });
 
       if (autoResize) {
-     	  $window.addEventListener('resize', function() {
-	        echart.resize();
-	      });
+        $window.addEventListener('resize', function() {
+          echart.resize();
+        });
       }
 
     };
