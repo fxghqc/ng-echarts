@@ -6,7 +6,6 @@
     function draw(chart, echart, option, theme, init) {
       init && (echart = echarts.init(chart, theme));
       echart.setOption(option);
-      !init && echart.resize();
       return echart;
     };
     
@@ -28,13 +27,12 @@
         chart.style.width = size.width;
         chart.style.height = size.height;
         option && (echart = draw(chart, echart, option, theme, true));
-      }, 100);
+      });
 
       scope.$watchGroup([attrs.option, attrs.theme, attrs.data], function(values) {
         option = values[0];
         theme = values[1];
         data = values[2];
-        //echart && draw(chart, echart, option, theme, false);
         data && echart.addData(data);
       });
 
