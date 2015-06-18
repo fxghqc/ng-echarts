@@ -1,23 +1,24 @@
 (function() {
   angular.module('ng-echarts', [])
 
-  .directive('echart', ['$timeout', function($timeout) {
-    
+  .directive('echart', ['$timeout', '$window', function($timeout, $window) {
+
     function draw(chart, echart, option, theme, init) {
       init && (echart = echarts.init(chart, theme));
       echart.setOption(option);
       return echart;
     };
-    
+
     function calSize(ele, chart) {
       width  = ele.style.width  || chart.offsetWidth || '500px';
       height = ele.style.height || ele.offsetHeight  || '300px';
-      
+
       return { width: width, height: height };
     };
 
     function link(scope, element, attrs) {
       var echart;
+      var autoResize = attrs.autoResize;
       var theme = attrs.theme;
       var option = attrs.option;
       var chart = element.find('div')[0];
@@ -35,6 +36,12 @@
         data = values[2];
         data && echart.addData(data);
       });
+
+      if (autoResize) {
+     	  $window.addEventListener('resize', function() {
+	        echart.resize();
+	      });
+      }
 
     };
 
