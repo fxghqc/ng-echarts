@@ -1,42 +1,54 @@
 (function() {
   angular.module('ng-echarts', [])
 
-  .directive('echart', ['$timeout', function($timeout) {
-    
+  .directive('echart', ['$timeout', '$window', function($timeout, $window) {
+
     function draw(chart, echart, option, theme, init) {
       init && (echart = echarts.init(chart, theme));
       echart.setOption(option);
-      !init && echart.resize();
       return echart;
     };
-    
+
     function calSize(ele, chart) {
       width  = ele.style.width  || chart.offsetWidth || '500px';
       height = ele.style.height || ele.offsetHeight  || '300px';
-      
+
       return { width: width, height: height };
     };
 
     function link(scope, element, attrs) {
-      var echart;
-      var theme = attrs.theme;
-      var option = attrs.option;
+      var echart, theme, option;
+      var autoResize = attrs.autoResize;
       var chart = element.find('div')[0];
+      var initialized = false;
 
       $timeout(function() {
         var size = calSize(element[0], chart);
         chart.style.width = size.width;
         chart.style.height = size.height;
         option && (echart = draw(chart, echart, option, theme, true));
-      }, 100);
-
-      scope.$watchGroup([attrs.option, attrs.theme, attrs.data], function(values) {
-        option = values[0];
-        theme = values[1];
-        data = values[2];
-        //echart && draw(chart, echart, option, theme, false);
-        data && echart.addData(data);
+        initialized = true;
       });
+
+      scope.$watch(attrs.theme, function(value) {
+        theme = value;
+        initialized && option && (echart = draw(chart, echart, option, theme, true));
+      });
+
+      scope.$watch(attrs.option, function(value) {
+        option = value;
+        initialized && option && (echart = draw(chart, echart, option, theme, true));
+      }, true);
+
+      scope.$watch(attrs.data, function(value) {
+        value && echart.addData(value);
+      });
+
+      if (autoResize) {
+        $window.addEventListener('resize', function() {
+          echart.resize();
+        });
+      }
 
     };
 
