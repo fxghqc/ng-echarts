@@ -17,24 +17,31 @@
     };
 
     function link(scope, element, attrs) {
-      var echart;
+      var echart, theme, option;
       var autoResize = attrs.autoResize;
-      var theme = attrs.theme;
-      var option = attrs.option;
       var chart = element.find('div')[0];
+      var initialized = false;
 
       $timeout(function() {
         var size = calSize(element[0], chart);
         chart.style.width = size.width;
         chart.style.height = size.height;
         option && (echart = draw(chart, echart, option, theme, true));
+        initialized = true;
       });
 
-      scope.$watchGroup([attrs.option, attrs.theme, attrs.data], function(values) {
-        option = values[0];
-        theme = values[1];
-        data = values[2];
-        data && echart.addData(data);
+      scope.$watch(attrs.theme, function(value) {
+        theme = value;
+        initialized && option && (echart = draw(chart, echart, option, theme, true));
+      });
+
+      scope.$watch(attrs.option, function(value) {
+        option = value;
+        initialized && option && (echart = draw(chart, echart, option, theme, true));
+      }, true);
+
+      scope.$watch(attrs.data, function(value) {
+        value && echart.addData(value);
       });
 
       if (autoResize) {
