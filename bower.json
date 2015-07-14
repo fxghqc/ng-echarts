@@ -21,6 +21,5 @@
   ],
   "dependencies": {
     "angularjs": "^1.4.1",
-    "echarts": "^2.2.4"
   }
 }
